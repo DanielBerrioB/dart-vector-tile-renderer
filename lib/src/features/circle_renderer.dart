@@ -31,6 +31,7 @@ class CircleRenderer extends FeatureRenderer {
       logger,
       zoom: context.zoom,
       zoomScaleFactor: context.zoomScaleFactor,
+      hasImage: (_) => false,
     );
     final fillPaint = style.fillPaint?.evaluate(evaluationContext);
     final points = feature.points;
