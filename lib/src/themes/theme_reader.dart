@@ -16,6 +16,7 @@ import 'selector_factory.dart';
 import 'style.dart';
 import 'text_halo_factory.dart';
 import 'theme.dart';
+import 'theme_layer_raster.dart';
 import 'theme_layers.dart';
 
 class ThemeReader {
@@ -60,6 +61,8 @@ class ThemeReader {
       return _toSymbolTheme(jsonLayer);
     } else if (type == 'circle') {
       return _toCircleTheme(jsonLayer);
+    } else if (type == 'raster') {
+      return _toRasterTheme(jsonLayer);
     }
     logger.warn(() => 'theme layer type $type not implemented');
     return null;
@@ -114,6 +117,20 @@ class ThemeReader {
           metadata: _metadata(jsonLayer));
     }
     return null;
+  }
+
+  ThemeLayer? _toRasterTheme(jsonLayer) {
+    final selector = selectorFactory.create(jsonLayer);
+    final paintJson = jsonLayer['paint'];
+    final opacity = expressionParser.parse(paintJson?['raster-opacity'],
+        whenNull: () => LiteralExpression(1.0));
+    return ThemeLayerRaster(
+        jsonLayer['id'] ?? _unknownId, ThemeLayerType.raster,
+        selector: selector,
+        paintModel: RasterPaintModel(opacity: opacity.asDoubleExpression()),
+        minzoom: _minZoom(jsonLayer),
+        maxzoom: _maxZoom(jsonLayer),
+        metadata: _metadata(jsonLayer));
   }
 
   ThemeLayer? _toFillTheme(jsonLayer) {
