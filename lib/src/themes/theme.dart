@@ -43,6 +43,7 @@ enum ThemeLayerType {
   symbol,
   background,
   circle,
+  raster,
   unsupported
 }
 
