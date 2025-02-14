@@ -1,3 +1,12 @@
+## 6.0.0
+
+* add `raster-resampling` to raster layer
+* require Dart SDK minimum version 3.0
+
+## 5.2.1
+
+* add scale capability to `TileTranslate`
+
 ## 5.2.0
 
 * improve invalid vector tile data handling 
